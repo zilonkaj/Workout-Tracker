@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     // popup created when Create New Workout button is pressed
     public void create_new_workout_dialog(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Create New Workout");
 
         // constructs the layout of the popup from popup_create_new_workout.xml
