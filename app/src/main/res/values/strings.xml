@@ -1,11 +1,11 @@
 <resources>
-    // MainActivity
+    <!-- MainActivity -->
     <string name="app_name">Workout Tracker</string>
     <string name="create_workout">Create Workout</string>
     <string name="view_workouts">View Workouts</string>
     <string name="workout_mode">Workout Mode</string>
 
-    // Create New Workout Activity
+    <!-- Create New Workout Activity -->
     <string name="create_new_workout">Create New Workout</string>
 
     <!-- TODO: Remove or change this placeholder text -->
