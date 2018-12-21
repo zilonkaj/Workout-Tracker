@@ -1,4 +1,4 @@
-package com.zilonkaj.workouttracker.data;
+package com.zilonkaj.workouttracker;
 
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.zilonkaj.workouttracker.R;
+import com.zilonkaj.workouttracker.data.Exercise;
+import com.zilonkaj.workouttracker.data.Workout;
 
 import java.util.List;
 

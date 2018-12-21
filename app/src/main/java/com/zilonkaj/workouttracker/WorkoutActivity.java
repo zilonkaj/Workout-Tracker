@@ -1,6 +1,5 @@
 package com.zilonkaj.workouttracker;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.zilonkaj.workouttracker.data.Workout;
-import com.zilonkaj.workouttracker.data.WorkoutRecycleViewAdapter;
 
 public class WorkoutActivity extends AppCompatActivity {
     private Workout workout;
@@ -20,7 +18,7 @@ public class WorkoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.workout_activity);
+        setContentView(R.layout.activity_workout);
         workoutList = findViewById(R.id.workout_recycle_view);
 
         // improves performance if size of RecyclerView content is fixed
