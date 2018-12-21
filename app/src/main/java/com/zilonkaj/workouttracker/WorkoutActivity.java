@@ -43,5 +43,11 @@ public class WorkoutActivity extends AppCompatActivity {
         WorkoutRecycleViewAdapter adapter = new WorkoutRecycleViewAdapter(workout);
         workoutRecycleView.setAdapter(adapter);
         workoutRecycleView.setLayoutManager(new LinearLayoutManager(this));
+
+        if (adapter.getItemCount() == 0)
+        {
+            adapter.
+        }
+
     }
 }

@@ -17,19 +17,16 @@ import android.widget.EditText;
 
 public class NewWorkoutDialog {
 
-    private Activity activity;
     private AlertDialog dialog;
     private EditText input;
-    private View view;
 
-    public NewWorkoutDialog(Activity activity) {
-        this.activity = activity;
+    public NewWorkoutDialog(MainActivity mainActivity) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
 
         builder.setTitle("Create New Workout");
 
-        view = buildView(activity);
+        View view = buildView(mainActivity);
 
         input = view.findViewById(R.id.input);
 
@@ -40,7 +37,7 @@ public class NewWorkoutDialog {
             String userInput = input.getText().toString();
             dialog.dismiss();
 
-            // createNewWorkout(userInput);
+            mainActivity.launchNewWorkoutWizard(userInput);
         });
 
         builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> {
