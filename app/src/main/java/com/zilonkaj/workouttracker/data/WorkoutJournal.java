@@ -56,4 +56,32 @@ public class WorkoutJournal {
 
         return null;
     }
+
+    public void addWorkout(Workout workoutToAdd)
+    {
+        List<Workout> list = read();
+
+        if (list == null) {
+            list = new ArrayList<>();
+        }
+
+        list.add(workoutToAdd);
+        write(list);
+    }
+
+    public void updateWorkout(Workout workoutToUpdate)
+    {
+        List<Workout> list = read();
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            if (list.get(i).getWorkoutName() == workoutToUpdate.getWorkoutName())
+            {
+                list.set(i, workoutToUpdate);
+                break;
+            }
+        }
+
+        write(list);
+    }
 }

@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.zilonkaj.workouttracker.data.Workout;
+import com.zilonkaj.workouttracker.data.WorkoutJournal;
 
 public class MainActivity extends AppCompatActivity {
+
+    private WorkoutJournal workoutJournal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         // applies GUI from XML file
         setContentView(R.layout.activity_main);
 
-        //workoutJournal = new WorkoutJournal(getApplicationContext().getFilesDir());
+        workoutJournal = new WorkoutJournal(getApplicationContext().getFilesDir());
     }
 
     // popup created when Create New Workout button is pressed
@@ -28,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void launchNewWorkoutWizard(String workoutName) {
         Workout newWorkout = new Workout(workoutName);
+        workoutJournal.addWorkout(newWorkout);
         Intent intent = new Intent(this, WorkoutActivity.class);
-        intent.putExtra("WORKOUT_TO_ADD", newWorkout);
+        intent.putExtra("WORKOUT", newWorkout);
         startActivity(intent);
     }
 }

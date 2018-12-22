@@ -5,7 +5,14 @@
     <string name="view_workouts">View Workouts</string>
     <string name="workout_mode">Workout Mode</string>
 
-    <!-- Create New Workout Activity -->
+    <!-- WorkoutActivity -->
+    <string name="blank_recyclerview">Add exercises with the plus button</string>
+    <string name="exercise_name">Exercise name</string>
+    <string name="weight">Weight (lbs)</string>
+    <string name="reps">Reps</string>
+
+
+    <!-- NewWorkoutDialog -->
     <string name="create_new_workout">Create New Workout</string>
 
     <!-- TODO: Remove or change this placeholder text -->

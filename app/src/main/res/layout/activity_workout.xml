@@ -9,16 +9,40 @@
     tools:context=".WorkoutActivity"
     >
 
+    <TextView
+        android:id="@+id/empty_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:text="@string/blank_recyclerview"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+         />
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/workout_recycle_view"
+        android:id="@+id/recycler_view_exercise"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/recycler_view_item" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/recycler_view_item">
+
+    </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -27,9 +51,10 @@
         android:layout_gravity="end|bottom"
         android:src="@drawable/ic_add_white_24dp"
         android:layout_margin="16dp"
+        android:onClick="addNewExercise"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:fabSize="normal"
-        android:onClick="createNewWorkoutDialog"/>
+        />
 
 </android.support.constraint.ConstraintLayout>
