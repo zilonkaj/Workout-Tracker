@@ -1,11 +1,19 @@
 package com.zilonkaj.workouttracker;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.zilonkaj.workouttracker.data.Exercise;
@@ -38,6 +46,31 @@ public class WorkoutActivity extends AppCompatActivity {
         buildRecyclerView(workout);
     }
 
+    // Adds save button (check mark) to action bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.save_button, menu);
+        return true;
+    }
+
+    // Handles which action bar button was pressed
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_save:
+                // set focus to trigger the focus listeners in the CustomEditTexts
+                exerciseRecyclerView.requestFocus();
+
+                hideKeyboard(this, emptyRecyclerView);
+
+                workoutJournal.updateWorkout(workout);
+            default:
+                // unrecognized button pressed
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void buildRecyclerView(Workout workout) {
         // get RecyclerView from this activity
         exerciseRecyclerView = findViewById(R.id.recycler_view_exercise);
@@ -50,14 +83,27 @@ public class WorkoutActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         exerciseRecyclerView.setLayoutManager(layoutManager);
 
-        // Create adapter and set its data set to workout
-        adapter = new ExerciseRecyclerViewAdapter(workout);
+        // add divider
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        exerciseRecyclerView.addItemDecoration(itemDecoration);
 
-        setupOnFocusChangeListeners();
+        // Create adapter and set its data set to workout
+        adapter = new ExerciseRecyclerViewAdapter(workout, this);
+
+        // Set up swipe to dismiss and ability to move RecyclerView items around
+
+        // Create callback object for ItemTouchHelper
+        ItemTouchHelper.Callback callback = new CustomItemTouchHelperCallback(adapter);
+
+        // Implement object created above
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+
+        touchHelper.attachToRecyclerView(exerciseRecyclerView);
 
         if (adapter.getItemCount() == 0)
         {
-            emptyRecyclerView.setVisibility(View.VISIBLE);
+            showEmptyRecyclerViewText();
         }
         else
         {
@@ -65,30 +111,28 @@ public class WorkoutActivity extends AppCompatActivity {
         }
     }
 
-    private void setupOnFocusChangeListeners() {
-        layoutManager.find
-
-
-
-        adapter.ViewHolder.exerciseName.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus){
-                int adapterPosition = layoutManager.getPosition(v);
-
-            }
-        });
+    public void showEmptyRecyclerViewText()
+    {
+        emptyRecyclerView.setVisibility(View.VISIBLE);
     }
-
 
     public void addNewExercise(View view)
     {
         Exercise newExercise = new Exercise("", -1, -1);
         if (exerciseRecyclerView.getAdapter() == null) {
             exerciseRecyclerView.setAdapter(adapter);
-            emptyRecyclerView.setVisibility(View.INVISIBLE);
         }
+
+        emptyRecyclerView.setVisibility(View.INVISIBLE);
 
         workout.addExercise(newExercise);
 
         adapter.notifyItemInserted(workout.getExercises().size() - 1);
+    }
+
+    private void hideKeyboard(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService
+                (Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

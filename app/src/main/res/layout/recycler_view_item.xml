@@ -17,20 +17,18 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
         android:gravity="center_horizontal"
         android:hint="@string/exercise_name"
         android:inputType="textAutoComplete"
+        android:nextFocusRight="@+id/exercise_weight"
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:nextFocusRight="@+id/exercise_weight"
-        app:layout_constraintBottom_toTopOf="@+id/exercise_divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Squat"
-        tools:ignore="Autofill"/>
+        tools:ignore="Autofill"
+        tools:text="Squat" />
 
     <com.zilonkaj.workouttracker.CustomEditText
         android:id="@+id/exercise_weight"
@@ -41,23 +39,19 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="24dp"
         android:background="@android:color/transparent"
         android:gravity="center_horizontal"
         android:hint="@string/weight"
+        android:imeOptions="actionNext"
         android:inputType="number"
+        android:nextFocusRight="@+id/exercise_reps"
         android:paddingTop=".9sp"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:nextFocusRight="@+id/exercise_reps"
-        android:imeOptions="actionNext"
-        app:layout_constraintBottom_toTopOf="@+id/exercise_divider"
         app:layout_constraintEnd_toStartOf="@+id/exercise_reps"
         app:layout_constraintStart_toEndOf="@+id/exercise_name"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:text="60 lbs"
-         />
+        tools:text="60 lbs" />
 
     <com.zilonkaj.workouttracker.CustomEditText
         android:id="@+id/exercise_reps"
@@ -69,31 +63,12 @@
         android:background="@android:color/transparent"
         android:gravity="center_horizontal"
         android:hint="@string/reps"
+        android:imeOptions="actionDone"
         android:inputType="number"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:imeOptions="actionDone"
-        app:layout_constraintBottom_toTopOf="@+id/exercise_divider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.32"
-        tools:text="12 reps"
-         />
-
-  <View
-      android:id="@+id/exercise_divider"
-      android:layout_width="426dp"
-      android:layout_height="5dp"
-      android:layout_marginStart="8dp"
-      android:layout_marginLeft="8dp"
-      android:layout_marginTop="84dp"
-      android:layout_marginEnd="8dp"
-      android:layout_marginRight="8dp"
-      android:background="#4B797676"
-      android:visibility="visible"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.516"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+        tools:text="12 reps" />
 
 </android.support.constraint.ConstraintLayout>

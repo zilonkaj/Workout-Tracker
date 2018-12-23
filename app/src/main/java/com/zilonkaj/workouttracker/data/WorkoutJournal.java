@@ -73,6 +73,12 @@ public class WorkoutJournal {
     {
         List<Workout> list = read();
 
+        if (list == null)
+        {
+            addWorkout(workoutToUpdate);
+            list = read();
+        }
+
         for (int i = 0; i < list.size(); i++)
         {
             if (list.get(i).getWorkoutName() == workoutToUpdate.getWorkoutName())

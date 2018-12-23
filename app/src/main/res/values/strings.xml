@@ -10,6 +10,7 @@
     <string name="exercise_name">Exercise name</string>
     <string name="weight">Weight (lbs)</string>
     <string name="reps">Reps</string>
+    <string name="save">Save</string>
 
 
     <!-- NewWorkoutDialog -->

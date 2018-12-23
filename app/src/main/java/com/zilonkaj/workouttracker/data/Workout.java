@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Workout implements Parcelable {
-    private List<Exercise> exercises;
+    private List<Exercise> exercises = new ArrayList<>();
     private String WorkoutName;
 
     public List<Exercise> getExercises()

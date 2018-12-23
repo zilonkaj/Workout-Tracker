@@ -50,7 +50,7 @@ public class CustomEditText extends android.support.v7.widget.AppCompatEditText 
         });
     }
 
-    private void hideCursorAndKeyboard() {
+    public void hideCursorAndKeyboard() {
         clearFocus();
         hideKeyboard(getContext(), getRootView());
     }
