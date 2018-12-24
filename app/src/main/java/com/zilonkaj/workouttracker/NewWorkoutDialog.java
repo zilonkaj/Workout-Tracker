@@ -24,7 +24,7 @@ public class NewWorkoutDialog {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
 
-        builder.setTitle("Create New Workout");
+        builder.setTitle("Create new workout");
 
         View view = buildView(mainActivity);
 

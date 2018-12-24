@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zilonkaj.workouttracker.data.Exercise;
 import com.zilonkaj.workouttracker.data.Workout;
@@ -50,7 +51,7 @@ public class WorkoutActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.save_button, menu);
+        inflater.inflate(R.menu.workout_action_bar, menu);
         return true;
     }
 
@@ -58,13 +59,35 @@ public class WorkoutActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_save:
+            case R.id.action_save: {
                 // set focus to trigger the focus listeners in the CustomEditTexts
                 exerciseRecyclerView.requestFocus();
 
                 hideKeyboard(this, emptyRecyclerView);
 
                 workoutJournal.updateWorkout(workout);
+
+                Toast.makeText(this, "Workout saved", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(this, MainActivity.class);
+                finish();
+                startActivity(intent);
+
+                return true;
+            }
+            case R.id.action_delete: {
+                exerciseRecyclerView.requestFocus();
+
+                hideKeyboard(this, emptyRecyclerView);
+
+                workoutJournal.removeWorkout(workout);
+
+                Toast.makeText(this, "Workout deleted", Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(this, MainActivity.class);
+                finish();
+                startActivity(intent);
+            }
             default:
                 // unrecognized button pressed
                 return super.onOptionsItemSelected(item);

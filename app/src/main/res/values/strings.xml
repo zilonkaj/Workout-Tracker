@@ -11,6 +11,7 @@
     <string name="weight">Weight (lbs)</string>
     <string name="reps">Reps</string>
     <string name="save">Save</string>
+    <string name="delete">Delete</string>
 
 
     <!-- NewWorkoutDialog -->

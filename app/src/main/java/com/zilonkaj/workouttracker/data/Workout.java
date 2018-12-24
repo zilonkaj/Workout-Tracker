@@ -63,7 +63,7 @@ public class Workout implements Parcelable {
 
     private Workout(Parcel in)
     {
-        in.readList(exercises, null);
+        in.readList(exercises, getClass().getClassLoader());
         WorkoutName = in.readString();
     }
 }

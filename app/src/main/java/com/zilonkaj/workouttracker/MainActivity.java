@@ -1,12 +1,16 @@
 package com.zilonkaj.workouttracker;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 
 import com.zilonkaj.workouttracker.data.Workout;
 import com.zilonkaj.workouttracker.data.WorkoutJournal;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +24,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         workoutJournal = new WorkoutJournal(getApplicationContext().getFilesDir());
+
+        if (workoutJournal.getWorkouts().isEmpty())
+        {
+            Button viewWorkouts = findViewById(R.id.viewworkouts);
+            viewWorkouts.setAlpha(.5f);
+            viewWorkouts.setClickable(false);
+        }
     }
 
     // popup created when Create New Workout button is pressed
@@ -35,5 +46,21 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, WorkoutActivity.class);
         intent.putExtra("WORKOUT", newWorkout);
         startActivity(intent);
+    }
+
+    public void chooseWorkoutDialog(View view)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Choose a workout to view");
+
+        builder.setItems(workoutJournal.getWorkoutNames(), (dialog, which) -> {
+            Intent intent = new Intent(this, WorkoutActivity.class);
+            intent.putExtra("WORKOUT", workoutJournal.getWorkouts().get(which));
+            startActivity(intent);
+        });
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

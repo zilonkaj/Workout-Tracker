@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +22,19 @@ public class WorkoutJournal {
 
     private static final String JSON_FILENAME = "workout_journal.json";
     private File journalPath;
-    private Gson gson;
+    private final Gson gson;
 
     public WorkoutJournal(File directory) {
         journalPath = new File(directory, JSON_FILENAME);
 
-        // create file if it doesn't exist
-        try (FileWriter fileWriter = new FileWriter(journalPath)) {
+        if (!journalPath.isFile())
+        {
+            // create file if it doesn't exist
+            try (FileWriter fileWriter = new FileWriter(journalPath)) {
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         gson = new Gson();
@@ -47,7 +51,8 @@ public class WorkoutJournal {
 
     public List<Workout> read() {
         try (FileReader fileReader = new FileReader(journalPath)) {
-            Type listType = new TypeToken<ArrayList<Workout>>(){}.getType();
+            Type listType = new TypeToken<List<Workout>>(){}.getType();
+
             return gson.fromJson(fileReader, listType);
 
         } catch (IOException e) {
@@ -81,7 +86,7 @@ public class WorkoutJournal {
 
         for (int i = 0; i < list.size(); i++)
         {
-            if (list.get(i).getWorkoutName() == workoutToUpdate.getWorkoutName())
+            if (list.get(i).getWorkoutName().equals(workoutToUpdate.getWorkoutName()))
             {
                 list.set(i, workoutToUpdate);
                 break;
@@ -89,5 +94,38 @@ public class WorkoutJournal {
         }
 
         write(list);
+    }
+
+    public void removeWorkout(Workout workoutToRemove)
+    {
+        List<Workout> list = read();
+
+        for (int i = 0; i < list.size(); i++)
+        {
+            if (list.get(i).getWorkoutName().equals(workoutToRemove.getWorkoutName()))
+            {
+                list.remove(i);
+                break;
+            }
+        }
+
+        write(list);
+    }
+
+    public List<Workout> getWorkouts()
+    {
+        return read();
+    }
+
+    public String[] getWorkoutNames(){
+        List<Workout> workoutList = read();
+        List<String> names = new ArrayList<>();
+
+        for (Workout workout : workoutList)
+        {
+            names.add(workout.getWorkoutName());
+        }
+
+        return names.toArray(new String[0]);
     }
 }
