@@ -1,9 +1,12 @@
 package com.zilonkaj.workouttracker;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,7 +29,6 @@ public class WorkoutActivity extends AppCompatActivity {
     private TextView emptyRecyclerView;
     private RecyclerView exerciseRecyclerView;
     private ExerciseRecyclerViewAdapter adapter;
-    private LinearLayoutManager layoutManager;
     private WorkoutJournal workoutJournal;
 
     @Override
@@ -69,29 +71,46 @@ public class WorkoutActivity extends AppCompatActivity {
 
                 Toast.makeText(this, "Workout saved", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(this, MainActivity.class);
-                finish();
-                startActivity(intent);
-
                 return true;
             }
             case R.id.action_delete: {
                 exerciseRecyclerView.requestFocus();
 
-                hideKeyboard(this, emptyRecyclerView);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Confirm deletion").setMessage("Are you sure you want to delete" +
+                        " this workout?");
 
-                workoutJournal.removeWorkout(workout);
+                builder.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    workoutJournal.removeWorkout(workout);
 
-                Toast.makeText(this, "Workout deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Workout deleted", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(this, MainActivity.class);
-                finish();
-                startActivity(intent);
+                    Intent intent = new Intent(this, MainActivity.class);
+                    finish();
+                    startActivity(intent);
+                });
+
+                builder.setNegativeButton(android.R.string.no, (dialog, which) -> {
+                    dialog.dismiss();
+                });
+
+                builder.show();
+
+                return true;
             }
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
             default:
                 // unrecognized button pressed
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onBackPressed()
+    {
+        NavUtils.navigateUpFromSameTask(this);
     }
 
     private void buildRecyclerView(Workout workout) {
@@ -103,7 +122,7 @@ public class WorkoutActivity extends AppCompatActivity {
         exerciseRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager for RecyclerView
-        layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         exerciseRecyclerView.setLayoutManager(layoutManager);
 
         // add divider

@@ -8,8 +8,10 @@
     <!-- WorkoutActivity -->
     <string name="blank_recyclerview">Add exercises with the plus button</string>
     <string name="exercise_name">Exercise name</string>
-    <string name="weight">Weight (lbs)</string>
-    <string name="reps">Reps</string>
+    <string name="Weight_lbs">Weight (lbs)</string>
+    <string name="Reps">Reps</string>
+    <string name="lbs">lbs</string>
+    <string name="reps">reps</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
 
@@ -19,4 +21,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_workout_mode">WorkoutModeActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

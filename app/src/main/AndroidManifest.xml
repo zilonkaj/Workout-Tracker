@@ -18,9 +18,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WorkoutActivity"
+        <activity
+            android:name=".WorkoutActivity"
             android:parentActivityName=".MainActivity">
+
             <!-- meta data section does the same thing as parentActivityName for API 15 -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.zilonkaj.workouttracker.MainActivity" />
+        </activity>
+        <activity
+            android:name=".WorkoutModeActivity"
+            android:label="@string/title_activity_workout_mode"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.zilonkaj.workouttracker.MainActivity" />

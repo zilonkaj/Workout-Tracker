@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
@@ -28,8 +27,13 @@ public class MainActivity extends AppCompatActivity {
         if (workoutJournal.getWorkouts().isEmpty())
         {
             Button viewWorkouts = findViewById(R.id.viewworkouts);
+            Button workoutMode = findViewById(R.id.workoutmode);
+
             viewWorkouts.setAlpha(.5f);
             viewWorkouts.setClickable(false);
+
+            workoutMode.setAlpha(.5f);
+            workoutMode.setClickable(false);
         }
     }
 
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         workoutJournal.addWorkout(newWorkout);
         Intent intent = new Intent(this, WorkoutActivity.class);
         intent.putExtra("WORKOUT", newWorkout);
+        // finish();
         startActivity(intent);
     }
 
@@ -57,10 +62,16 @@ public class MainActivity extends AppCompatActivity {
         builder.setItems(workoutJournal.getWorkoutNames(), (dialog, which) -> {
             Intent intent = new Intent(this, WorkoutActivity.class);
             intent.putExtra("WORKOUT", workoutJournal.getWorkouts().get(which));
+            // finish();
             startActivity(intent);
         });
 
         final AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    public void workoutMode(View view){
+        Intent intent = new Intent(this, WorkoutModeActivity.class);
+        startActivity(intent);
     }
 }

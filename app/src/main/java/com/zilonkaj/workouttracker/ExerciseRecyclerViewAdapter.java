@@ -1,22 +1,23 @@
 package com.zilonkaj.workouttracker;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Handler;
+import android.widget.TextView;
 
 import com.zilonkaj.workouttracker.data.Exercise;
 import com.zilonkaj.workouttracker.data.Workout;
 
 import java.util.Collections;
 import java.util.List;
-
-enum Field {
-    NAME, WEIGHT, REPS
-}
 
 public class ExerciseRecyclerViewAdapter extends
         RecyclerView.Adapter<ExerciseRecyclerViewAdapter.ViewHolder> implements
@@ -26,26 +27,51 @@ public class ExerciseRecyclerViewAdapter extends
     private final WorkoutActivity parentActivity;
 
     // pass data into this object
-    public ExerciseRecyclerViewAdapter(Workout workout, WorkoutActivity parentActivity) {
+    ExerciseRecyclerViewAdapter(Workout workout, WorkoutActivity parentActivity) {
         exercises = workout.getExercises();
         this.parentActivity = parentActivity;
     }
 
     // ViewHolder provides direct references to each view in an individual row
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public ConstraintLayout constraintLayout;
-        public CustomEditText exerciseName;
-        public CustomEditText repCount;
-        public CustomEditText currentWeightCount;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        ConstraintLayout constraintLayout;
+        CustomEditText exerciseName;
+        CustomEditText repCount;
+        CustomEditText currentWeightCount;
+        TextView lbs;
+        TextView reps;
 
         // builds each row's view (passed in as parameter)
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
 
             constraintLayout = view.findViewById(R.id.exercise_constraint_layout);
             exerciseName = view.findViewById(R.id.exercise_name);
-            repCount = view.findViewById(R.id.exercise_reps);
+            lbs = view.findViewById(R.id.lbs);
             currentWeightCount = view.findViewById(R.id.exercise_weight);
+            repCount = view.findViewById(R.id.exercise_reps);
+            reps = view.findViewById(R.id.reps);
+
+        }
+
+        void showLbsTextView()
+        {
+            lbs.setVisibility(View.VISIBLE);
+        }
+
+        void hideLbsTextView()
+        {
+            lbs.setVisibility(View.INVISIBLE);
+        }
+
+        void showRepsTextView()
+        {
+            reps.setVisibility(View.VISIBLE);
+        }
+
+        void hideRepsTextView()
+        {
+            reps.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -72,19 +98,21 @@ public class ExerciseRecyclerViewAdapter extends
         */
         Exercise exercise = exercises.get(position);
 
-        String repCountText;
         String currentWeightCountText;
-
-        if (exercise.getReps() == -1) {
-            repCountText = "";
-        } else {
-            repCountText = String.valueOf(exercise.getReps()) + " reps";
-        }
+        String repCountText;
 
         if (exercise.getCurrentWeight() == -1) {
             currentWeightCountText = "";
+            viewHolder.lbs.setVisibility(View.INVISIBLE);
         } else {
-            currentWeightCountText = String.valueOf(exercise.getCurrentWeight()) + " lbs";
+            currentWeightCountText = String.valueOf(exercise.getCurrentWeight());
+        }
+
+        if (exercise.getReps() == -1) {
+            repCountText = "";
+            viewHolder.reps.setVisibility(View.INVISIBLE);
+        } else {
+            repCountText = String.valueOf(exercise.getReps());
         }
 
         // Set item views
@@ -92,52 +120,78 @@ public class ExerciseRecyclerViewAdapter extends
         viewHolder.currentWeightCount.setText(currentWeightCountText);
         viewHolder.repCount.setText(repCountText);
 
-        setOnFocusChangeListener(viewHolder.exerciseName, exercise, Field.NAME);
-        setOnFocusChangeListener(viewHolder.currentWeightCount, exercise, Field.WEIGHT);
-        setOnFocusChangeListener(viewHolder.repCount, exercise, Field.REPS);
+        setOnFocusChangeListeners(viewHolder, exercise);
+        setTextChangedListeners(viewHolder);
     }
 
     // saves data to exercise when user updates CustomEditText
-    private void setOnFocusChangeListener(CustomEditText editText, Exercise exercise,
-                                          Field field) {
-        editText.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus && editText.getText() != null) {
+    private void setOnFocusChangeListeners(ViewHolder viewHolder, Exercise exercise) {
 
-                String text = editText.getText().toString();
-                switch (field) {
-                    case NAME: {
-                        exercise.setName(text);
-                        break;
-                    }
-                    case WEIGHT: {
-                        if (!text.equals("")) {
-                            exercise.setCurrentWeight(Integer.parseInt(removeLetters(text)));
-                        }
-                        break;
-                    }
-                    case REPS: {
-                        if (!text.equals("")) {
-                            exercise.setReps(Integer.parseInt(removeLetters(text)));
-                        }
-                        break;
-                    }
+        viewHolder.exerciseName.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus && viewHolder.exerciseName.getText() != null)
+                exercise.setName(viewHolder.exerciseName.getText().toString());
+        });
+
+        viewHolder.currentWeightCount.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus && viewHolder.currentWeightCount.getText() != null) {
+                String weight = viewHolder.currentWeightCount.getText().toString();
+
+                if (weight.equals("")) {
+                    exercise.setCurrentWeight(-1);
+                } else {
+                    exercise.setCurrentWeight(Double.parseDouble(weight));
+                }
+            }
+        });
+
+        viewHolder.repCount.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus && viewHolder.repCount.getText() != null) {
+                String reps = viewHolder.repCount.getText().toString();
+
+                if (reps.equals("")) {
+                    exercise.setReps(-1);
+                } else {
+                    exercise.setReps(Integer.parseInt(reps));
                 }
             }
         });
     }
 
-    private String removeLetters(String string) {
-        if (string != null) {
-            StringBuilder newText = new StringBuilder(string);
+    private void setTextChangedListeners(ViewHolder viewHolder)
+    {
+        viewHolder.currentWeightCount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            for (int i = 0; i < newText.length(); i++) {
-                if (Character.isLetter(newText.charAt(i)) || newText.charAt(i) == ' ') {
-                    newText.deleteCharAt(i);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) {
+                    viewHolder.hideLbsTextView();
+                } else {
+                    viewHolder.showLbsTextView();
                 }
             }
-            return newText.toString();
-        }
-        return null;
+        });
+
+        viewHolder.repCount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) {
+                    viewHolder.hideRepsTextView();
+                } else {
+                    viewHolder.showRepsTextView();
+                }
+            }
+        });
     }
 
     @Override
@@ -173,9 +227,8 @@ public class ExerciseRecyclerViewAdapter extends
         exercises.remove(position);
         notifyItemRemoved(position);
 
-        if (getItemCount() == 0)
-        {
-            // Delays TextView reappearing for a couple of milliseconds
+        if (getItemCount() == 0) {
+// Delays TextView reappearing for a couple of milliseconds
             final Handler handler = new Handler();
             handler.postDelayed(parentActivity::showEmptyRecyclerViewText, 300);
         }

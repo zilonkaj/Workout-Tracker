@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class Exercise implements Parcelable {
     private String name;
     private int reps;
-    private int currentWeight;
+    private double currentWeight;
 
     public Exercise(String name, int reps, int currentWeight) {
         this.name = name;
@@ -31,11 +31,11 @@ public class Exercise implements Parcelable {
         this.reps = reps;
     }
 
-    public int getCurrentWeight() {
+    public double getCurrentWeight() {
         return currentWeight;
     }
 
-    public void setCurrentWeight(int currentWeight) {
+    public void setCurrentWeight(double currentWeight) {
         this.currentWeight = currentWeight;
     }
 
@@ -49,7 +49,7 @@ public class Exercise implements Parcelable {
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(name);
         out.writeInt(reps);
-        out.writeInt(currentWeight);
+        out.writeDouble(currentWeight);
     }
 
     // used to regenerate object. All Parcelables must have a CREATOR that implements
@@ -68,6 +68,6 @@ public class Exercise implements Parcelable {
     {
         name = in.readString();
         reps = in.readInt();
-        currentWeight = in.readInt();
+        currentWeight = in.readDouble();
     }
 }
