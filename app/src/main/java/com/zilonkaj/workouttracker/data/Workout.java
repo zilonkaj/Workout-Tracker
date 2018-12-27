@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Workout implements Parcelable {
-    private List<Exercise> exercises = new ArrayList<>();
+    private final List<Exercise> exercises = new ArrayList<>();
     private String WorkoutName;
 
-    public List<Exercise> getExercises()
+    public Workout(String WorkoutName)
     {
-        return exercises;
+        this.WorkoutName = WorkoutName;
     }
 
     public String getWorkoutName() {
@@ -23,10 +23,9 @@ public class Workout implements Parcelable {
         WorkoutName = workoutName;
     }
 
-    public Workout(String WorkoutName)
+    public List<Exercise> getExercises()
     {
-        this.WorkoutName = WorkoutName;
-        exercises = new ArrayList<>();
+        return exercises;
     }
 
     public void addExercise(Exercise exercise)
@@ -34,28 +33,26 @@ public class Workout implements Parcelable {
         exercises.add(exercise);
     }
 
-    /* Parcelable interface allows for passing POJOs between activities
-     * Functions below are to make this work */
+    // Parcelable interface allows for passing POJOs between activities. Functions below are to make
+    // this work
 
     @Override
     public int describeContents() {
         return 0;
     }
 
-    // write object's data to passed in Parcel
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeList(exercises);
         out.writeString(WorkoutName);
     }
 
-    // used to regenerate object. All Parcelables must have a CREATOR that implements
-    // these two methods
+    // Used to regenerate object. All Parcelables must have a CREATOR that implements these two
+    // methods
     public static final Parcelable.Creator<Workout> CREATOR = new Parcelable.Creator<Workout>() {
         public Workout createFromParcel(Parcel in) {
             return new Workout(in);
         }
-
         public Workout[] newArray(int size) {
             return new Workout[size];
         }

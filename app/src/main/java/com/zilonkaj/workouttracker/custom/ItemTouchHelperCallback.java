@@ -1,4 +1,4 @@
-package com.zilonkaj.workouttracker;
+package com.zilonkaj.workouttracker.custom;
 
 /*
  * Adapted from Paul Burke's Medium.com article:
@@ -16,30 +16,27 @@ package com.zilonkaj.workouttracker;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * CustomItemTouchHelperCallback overloads the ItemTouchHelper.Callback methods.
- * Also contains a reference to the RecyclerViewAdapter (casted as a ItemTouchHelperAdapter)
- * so that when a method in this class is called, it can pass that message to the
- * RecyclerViewAdapter using the ItemTouchHelperAdapter class (in other words,
- * ItemTouchHelperAdapter serves to pass messages from this class to the RecyclerViewAdapter)
+ * ItemTouchHelperCallback overloads the ItemTouchHelper.Callback methods.
+ * Also contains a reference to the parent RecyclerViewAdapter (cast as an ItemTouchHelperInterface)
+ * so that when an ItemTouchHelper.Callback method is called, this class's overloaded methods can
+ * pass that message to the RecyclerViewAdapter using the ItemTouchHelperInterface
  */
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
-public class CustomItemTouchHelperCallback extends ItemTouchHelper.Callback {
+public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-    private final ItemTouchHelperAdapter referenceToRecyclerViewAdapter;
+    private final ItemTouchHelperInterface parentRecyclerViewAdapter;
 
-    public CustomItemTouchHelperCallback(ItemTouchHelperAdapter referenceToRecyclerViewAdapter)
+    public ItemTouchHelperCallback(ItemTouchHelperInterface parentRecyclerViewAdapter)
     {
-        this.referenceToRecyclerViewAdapter = referenceToRecyclerViewAdapter;
+        this.parentRecyclerViewAdapter = parentRecyclerViewAdapter;
     }
 
-    /*
-    specifies which directions of drags/swipes are allowed. this implementation
-    allows both directions
-    */
+    // Specifies which directions of drags/swipes are allowed. This implementation allows both
+    // directions
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull
             RecyclerView.ViewHolder viewHolder) {
@@ -58,21 +55,19 @@ public class CustomItemTouchHelperCallback extends ItemTouchHelper.Callback {
         return true;
     }
 
-    // notify RecyclerViewAdapter that an item may have been moved
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull
             RecyclerView.ViewHolder sourceViewHolder, @NonNull RecyclerView.ViewHolder
-            targetViewHolder1) {
+            targetViewHolder) {
 
-        referenceToRecyclerViewAdapter.onItemMove(sourceViewHolder.getAdapterPosition(),
-                targetViewHolder1.getAdapterPosition());
-
-        return true;
+        // Notify RecyclerViewAdapter that an item may have been moved
+        return parentRecyclerViewAdapter.onItemMove(sourceViewHolder.getAdapterPosition(),
+                targetViewHolder.getAdapterPosition());
     }
 
-    // works for both left & right swipes since ignoring direction param
+    // Works for both left & right swipes since ignoring direction parameter
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        referenceToRecyclerViewAdapter.onItemDismiss(viewHolder.getAdapterPosition());
+        parentRecyclerViewAdapter.onItemDismiss(viewHolder.getAdapterPosition());
     }
 }

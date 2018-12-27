@@ -1,8 +1,8 @@
-package com.zilonkaj.workouttracker;
+package com.zilonkaj.workouttracker.custom;
 
 /*
-Adds functionality to base EditText widget:
-Hides cursor when user clicks back button or Done
+CustomEditText is normal EditText with ability to hide cursor & keyboard when user clicks back
+button or Done
 */
 
 import android.app.Activity;
@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 
 public class CustomEditText extends android.support.v7.widget.AppCompatEditText {
+    // EditText constructor overloads
     public CustomEditText(Context context) {
         super(context);
         addEditorActionListener();
@@ -40,17 +41,7 @@ public class CustomEditText extends android.support.v7.widget.AppCompatEditText 
         return super.onKeyPreIme(keyCode, event);
     }
 
-    // hide cursor and keyboard when user hits Done button
-    private void addEditorActionListener() {
-        this.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                hideCursorAndKeyboard();
-            }
-            return false;
-        });
-    }
-
-    public void hideCursorAndKeyboard() {
+    private void hideCursorAndKeyboard() {
         clearFocus();
         hideKeyboard(getContext(), getRootView());
     }
@@ -59,5 +50,15 @@ public class CustomEditText extends android.support.v7.widget.AppCompatEditText 
         InputMethodManager imm = (InputMethodManager) context.getSystemService
                 (Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    // hide cursor and keyboard when user hits Done button
+    private void addEditorActionListener() {
+        this.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                hideCursorAndKeyboard();
+            }
+            return false;
+        });
     }
 }

@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".activities.MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
     <Button
@@ -30,7 +30,7 @@
         app:layout_constraintVertical_bias="0.145" />
 
     <Button
-        android:id="@+id/viewworkouts"
+        android:id="@+id/view_workouts"
         android:layout_width="394dp"
         android:layout_height="113dp"
         android:layout_marginStart="8dp"
@@ -51,7 +51,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/workoutmode"
+        android:id="@+id/workout_mode"
         android:layout_width="394dp"
         android:layout_height="113dp"
         android:layout_marginStart="8dp"
@@ -68,7 +68,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewworkouts"
+        app:layout_constraintTop_toBottomOf="@+id/view_workouts"
         app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

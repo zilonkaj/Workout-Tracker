@@ -1,4 +1,4 @@
-package com.zilonkaj.workouttracker;
+package com.zilonkaj.workouttracker.custom;
 
 /*
  * Adapted from Paul Burke's Medium.com article:
@@ -16,12 +16,11 @@ package com.zilonkaj.workouttracker;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * ItemTouchHelperAdapter serves to pass messages from the custom ItemTouchHelper.Callback class
- * (CustomItemTouchHelperCallback) to the RecyclerViewAdapter
+ * ItemTouchHelperInterface serves to pass messages from the custom ItemTouchHelper.Callback
+ * class (ItemTouchHelperCallback) to the RecyclerViewAdapter
  */
 
-// used to notify RecyclerViewAdapter of changes
-public interface ItemTouchHelperAdapter {
+public interface ItemTouchHelperInterface {
 
     boolean onItemMove(int fromPosition, int toPosition);
 

@@ -20,40 +20,33 @@ import java.util.List;
 public class WorkoutJournal {
 
     private static final String JSON_FILENAME = "workout_journal.json";
-    private File journalPath;
-    private final Gson gson;
+    private final File journalPath;
+    private static final Gson gson = new Gson();
 
     public WorkoutJournal(File directory) {
         journalPath = new File(directory, JSON_FILENAME);
 
-        if (!journalPath.isFile())
-        {
-            // create file if it doesn't exist
-            try (FileWriter fileWriter = new FileWriter(journalPath)) {
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        gson = new Gson();
-    }
-
-    public void write(List<Workout> workoutList) {
-        try (FileWriter fileWriter = new FileWriter(journalPath)) {
-            gson.toJson(workoutList, fileWriter);
-
+        try {
+            journalPath.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public List<Workout> read() {
+    private void writeWorkoutsToFile(List<Workout> workoutList) {
+        try (FileWriter fileWriter = new FileWriter(journalPath)) {
+            gson.toJson(workoutList, fileWriter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List<Workout> readWorkoutsFromFile() {
         try (FileReader fileReader = new FileReader(journalPath)) {
+            // Gson requires TypeToken to deserialize List<>
             Type listType = new TypeToken<List<Workout>>(){}.getType();
 
             return gson.fromJson(fileReader, listType);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,68 +54,63 @@ public class WorkoutJournal {
         return null;
     }
 
-    public void addWorkout(Workout workoutToAdd)
-    {
-        List<Workout> list = read();
+    public void addWorkout(Workout workoutToAdd) {
+        List<Workout> workouts = readWorkoutsFromFile();
 
-        if (list == null) {
-            list = new ArrayList<>();
+        if (workouts == null) {
+            workouts = new ArrayList<>();
         }
 
-        list.add(workoutToAdd);
-        write(list);
+        workouts.add(workoutToAdd);
+        writeWorkoutsToFile(workouts);
     }
 
-    public void updateWorkout(Workout workoutToUpdate)
-    {
-        List<Workout> list = read();
+    public void updateWorkout(Workout workoutToUpdate) {
+        List<Workout> workouts = readWorkoutsFromFile();
 
-        if (list == null)
-        {
-            addWorkout(workoutToUpdate);
-            list = read();
-        }
-
-        for (int i = 0; i < list.size(); i++)
-        {
-            if (list.get(i).getWorkoutName().equals(workoutToUpdate.getWorkoutName()))
-            {
-                list.set(i, workoutToUpdate);
+        for (int i = 0; i < workouts.size(); i++) {
+            if (workouts.get(i).getWorkoutName().equals(workoutToUpdate.getWorkoutName())) {
+                workouts.set(i, workoutToUpdate);
                 break;
             }
         }
 
-        write(list);
+        writeWorkoutsToFile(workouts);
     }
 
-    public void removeWorkout(Workout workoutToRemove)
-    {
-        List<Workout> list = read();
+    public void removeWorkout(Workout workoutToRemove) {
+        List<Workout> workouts = readWorkoutsFromFile();
 
-        for (int i = 0; i < list.size(); i++)
-        {
-            if (list.get(i).getWorkoutName().equals(workoutToRemove.getWorkoutName()))
-            {
-                list.remove(i);
+        for (int i = 0; i < workouts.size(); i++) {
+            if (workouts.get(i).getWorkoutName().equals(workoutToRemove.getWorkoutName())) {
+                workouts.remove(i);
                 break;
             }
+
+            writeWorkoutsToFile(workouts);
         }
-
-        write(list);
     }
 
-    public List<Workout> getWorkouts()
-    {
-        return read();
+    public Workout getWorkoutAt(int index) {
+        return readWorkoutsFromFile().get(index);
     }
 
-    public String[] getWorkoutNames(){
-        List<Workout> workoutList = read();
+    public boolean isEmpty() {
+        if (readWorkoutsFromFile() == null) {
+            return true;
+        } else {
+            return readWorkoutsFromFile().isEmpty();
+        }
+    }
+
+    public String[] getWorkoutNames() {
+        List<Workout> workoutList = readWorkoutsFromFile();
         List<String> names = new ArrayList<>();
 
-        for (Workout workout : workoutList)
-        {
-            names.add(workout.getWorkoutName());
+        if (workoutList != null) {
+            for (Workout workout : workoutList) {
+                names.add(workout.getWorkoutName());
+            }
         }
 
         return names.toArray(new String[0]);
