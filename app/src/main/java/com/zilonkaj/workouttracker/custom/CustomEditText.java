@@ -3,7 +3,6 @@ package com.zilonkaj.workouttracker.custom;
 /*
 CustomEditText is normal EditText with ability to hide cursor & keyboard when user clicks back
 button or Done
-CHANGE
 */
 
 import android.app.Activity;
