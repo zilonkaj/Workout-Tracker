@@ -15,19 +15,12 @@ public class Exercise implements Parcelable {
     }
 
     public String getName() {
+
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public double getCurrentWeight() {
-        return currentWeight;
-    }
-
-    public void setCurrentWeight(double currentWeight) {
-        this.currentWeight = currentWeight;
     }
 
     public int getReps() {
@@ -38,14 +31,20 @@ public class Exercise implements Parcelable {
         this.reps = reps;
     }
 
-    // Parcelable interface allows for passing POJOs between activities. Functions below are to make
-    // this work
+    public double getCurrentWeight() {
+        return currentWeight;
+    }
+
+    public void setCurrentWeight(double currentWeight) {
+        this.currentWeight = currentWeight;
+    }
 
     @Override
     public int describeContents() {
         return 0;
     }
 
+    // write object's data to passed in Parcel
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(name);
@@ -53,12 +52,13 @@ public class Exercise implements Parcelable {
         out.writeDouble(currentWeight);
     }
 
-    // Used to regenerate object. All Parcelables must have a CREATOR that implements these two
-    // methods
+    // used to regenerate object. All Parcelables must have a CREATOR that implements
+    // these two methods
     public static final Parcelable.Creator<Exercise> CREATOR = new Parcelable.Creator<Exercise>() {
         public Exercise createFromParcel(Parcel in) {
             return new Exercise(in);
         }
+
         public Exercise[] newArray(int size) {
             return new Exercise[size];
         }

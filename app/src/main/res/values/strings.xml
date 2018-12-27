@@ -4,7 +4,6 @@
     <string name="create_workout">Create Workout</string>
     <string name="view_workouts">View Workouts</string>
     <string name="workout_mode">Workout Mode</string>
-    <string name="workout_name">Workout name</string>
 
     <!-- WorkoutActivity -->
     <string name="blank_recyclerview">Add exercises with the plus button</string>
@@ -16,7 +15,12 @@
     <string name="save">Save</string>
     <string name="delete">Delete</string>
 
-    <!-- WorkoutModeActivity -->
+
+    <!-- NewWorkoutDialog -->
+    <string name="create_new_workout">Create New Workout</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_workout_mode">WorkoutModeActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
