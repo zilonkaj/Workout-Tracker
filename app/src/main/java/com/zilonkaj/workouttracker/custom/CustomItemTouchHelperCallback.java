@@ -1,4 +1,4 @@
-package com.zilonkaj.workouttracker;
+package com.zilonkaj.workouttracker.custom;
 
 /*
  * Adapted from Paul Burke's Medium.com article:

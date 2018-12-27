@@ -19,9 +19,11 @@
     <!-- NewWorkoutDialog -->
     <string name="create_new_workout">Create New Workout</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- WorkoutModeFragment -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_workout_mode">WorkoutModeActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="right_arrow">right arrow</string>
+    <string name="left_arrow">left arrow</string>
 </resources>

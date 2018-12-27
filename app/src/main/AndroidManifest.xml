@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,22 +19,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WorkoutActivity"
-            android:parentActivityName=".MainActivity">
+            android:name=".activities.WorkoutActivity"
+            android:parentActivityName=".activities.MainActivity">
 
             <!-- meta data section does the same thing as parentActivityName for API 15 -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.zilonkaj.workouttracker.MainActivity" />
+                android:value="com.zilonkaj.workouttracker.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".WorkoutModeActivity"
+            android:name=".activities.WorkoutModeActivity"
             android:label="@string/title_activity_workout_mode"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.zilonkaj.workouttracker.MainActivity" />
+                android:value="com.zilonkaj.workouttracker.activities.MainActivity" />
         </activity>
     </application>
 

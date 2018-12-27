@@ -3,7 +3,7 @@ Wrapper for custom AlertDialog when Create New
 Workout Button is pressed
 */
 
-package com.zilonkaj.workouttracker;
+package com.zilonkaj.workouttracker.custom;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,6 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+
+import com.zilonkaj.workouttracker.R;
+import com.zilonkaj.workouttracker.activities.MainActivity;
 
 public class NewWorkoutDialog {
 

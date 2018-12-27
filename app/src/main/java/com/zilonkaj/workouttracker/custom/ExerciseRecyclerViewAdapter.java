@@ -1,6 +1,5 @@
-package com.zilonkaj.workouttracker;
+package com.zilonkaj.workouttracker.custom;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +12,8 @@ import android.view.ViewGroup;
 import android.os.Handler;
 import android.widget.TextView;
 
+import com.zilonkaj.workouttracker.R;
+import com.zilonkaj.workouttracker.activities.WorkoutActivity;
 import com.zilonkaj.workouttracker.data.Exercise;
 import com.zilonkaj.workouttracker.data.Workout;
 
@@ -27,7 +28,7 @@ public class ExerciseRecyclerViewAdapter extends
     private final WorkoutActivity parentActivity;
 
     // pass data into this object
-    ExerciseRecyclerViewAdapter(Workout workout, WorkoutActivity parentActivity) {
+    public ExerciseRecyclerViewAdapter(Workout workout, WorkoutActivity parentActivity) {
         exercises = workout.getExercises();
         this.parentActivity = parentActivity;
     }

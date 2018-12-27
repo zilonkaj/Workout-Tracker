@@ -10,7 +10,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true">
 
-    <com.zilonkaj.workouttracker.CustomEditText
+    <com.zilonkaj.workouttracker.custom.CustomEditText
         android:id="@+id/exercise_name"
         android:layout_width="175dp"
         android:layout_height="42dp"
@@ -29,7 +29,7 @@
         tools:ignore="Autofill"
         tools:text="Squat" />
 
-    <com.zilonkaj.workouttracker.CustomEditText
+    <com.zilonkaj.workouttracker.custom.CustomEditText
         android:id="@+id/exercise_weight"
         android:layout_width="98dp"
         android:layout_height="38dp"
@@ -64,7 +64,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.zilonkaj.workouttracker.CustomEditText
+    <com.zilonkaj.workouttracker.custom.CustomEditText
         android:id="@+id/exercise_reps"
         android:layout_width="62dp"
         android:layout_height="36dp"

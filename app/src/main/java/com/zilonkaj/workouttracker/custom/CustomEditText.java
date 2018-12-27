@@ -1,4 +1,4 @@
-package com.zilonkaj.workouttracker;
+package com.zilonkaj.workouttracker.custom;
 
 /*
 Adds functionality to base EditText widget:
