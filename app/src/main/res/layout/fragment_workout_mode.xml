@@ -5,18 +5,8 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.WorkoutModeActivity$PlaceholderFragment"
+    tools:context=".activities.WorkoutModeActivity$ExerciseFragment"
     tools:background="@color/colorPrimary">
-
-    <Button
-        android:id="@+id/bumpReps"
-        android:layout_width="122dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toEndOf="@+id/bumpWeight"
-        app:layout_constraintTop_toBottomOf="@+id/reps"
-        tools:text="Bump Reps" />
 
     <TextView
         android:id="@+id/exercisename"
@@ -39,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="20dp"
         android:background="@null"
         android:contentDescription="@string/left_arrow"
         android:src="@drawable/ic_keyboard_arrow_left_white_48dp"
@@ -51,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="20dp"
         android:background="@null"
         android:contentDescription="@string/right_arrow"
         android:src="@drawable/ic_keyboard_arrow_right_white_48dp"
@@ -60,22 +50,24 @@
 
     <TextView
         android:id="@+id/weight"
-        android:layout_width="wrap_content"
+        android:layout_width="137dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="90dp"
+        android:textAlignment="center"
         android:textColor="@android:color/background_dark"
         android:textSize="45sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exercisename"
-        tools:text="500.0" />
+        tools:text="500" />
 
     <TextView
         android:id="@+id/lbs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="88dp"
+        android:text="@string/lbs"
         android:textColor="@android:color/background_dark"
         android:textSize="40sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,22 +76,24 @@
 
     <TextView
         android:id="@+id/repcount"
-        android:layout_width="wrap_content"
+        android:layout_width="103dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:layout_marginEnd="56dp"
+        android:layout_marginTop="90dp"
+        android:layout_marginEnd="72dp"
+        android:textAlignment="center"
         android:textColor="@android:color/background_dark"
         android:textSize="45sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/exercisename"
-        tools:text="500" />
+        tools:text="50" />
 
     <TextView
         android:id="@+id/reps"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginStart="250dp"
+        android:text="@string/reps"
         android:textColor="@android:color/background_dark"
         android:textSize="40sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -112,8 +106,20 @@
         android:layout_height="63dp"
         android:layout_marginStart="54dp"
         android:layout_marginTop="16dp"
+        android:text="@string/bump_weight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lbs"
         tools:text="Bump Weight" />
+
+    <Button
+        android:id="@+id/bumpReps"
+        android:layout_width="122dp"
+        android:layout_height="63dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/bump_reps"
+        app:layout_constraintStart_toEndOf="@+id/bumpWeight"
+        app:layout_constraintTop_toBottomOf="@+id/lbs"
+        tools:text="Bump Reps" />
 
 </android.support.constraint.ConstraintLayout>

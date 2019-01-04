@@ -1,7 +1,8 @@
 package com.zilonkaj.workouttracker.activities;
 
+import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,25 +15,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.zilonkaj.workouttracker.R;
+import com.zilonkaj.workouttracker.data.Exercise;
+import com.zilonkaj.workouttracker.data.Workout;
+import com.zilonkaj.workouttracker.data.WorkoutJournal;
 
 public class WorkoutModeActivity extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
 
     @Override
@@ -40,18 +33,23 @@ public class WorkoutModeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_mode);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Intent intent = getIntent();
+        Workout workout = intent.getParcelableExtra("WORKOUT");
+
+        setTitle(workout.getWorkoutName());
+
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        ExercisePagerAdapter exercisePagerAdapter =
+                new ExercisePagerAdapter(getSupportFragmentManager(), workout);
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
+        mViewPager = findViewById(R.id.viewpager);
+        mViewPager.setAdapter(exercisePagerAdapter);
     }
 
 
@@ -77,27 +75,14 @@ public class WorkoutModeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    public static class ExerciseFragment extends Fragment {
 
-        public PlaceholderFragment() {
-        }
+        public static ExerciseFragment newInstance(Exercise exercise) {
+            ExerciseFragment fragment = new ExerciseFragment();
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            args.putParcelable("EXERCISE", exercise);
+
             fragment.setArguments(args);
             return fragment;
         }
@@ -105,34 +90,56 @@ public class WorkoutModeActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_workout_mode, container, false);
-            TextView textView = rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            View rootView = inflater.inflate(R.layout.fragment_workout_mode, container,
+                    false);
+
+            TextView exerciseNameTextView = rootView.findViewById(R.id.exercisename);
+            TextView weightTextView = rootView.findViewById(R.id.weight);
+            TextView repsTextView = rootView.findViewById(R.id.repcount);
+
+            Exercise exercise = getArguments().getParcelable("EXERCISE");
+
+            exerciseNameTextView.setText(exercise.getName());
+            weightTextView.setText(String.valueOf(exercise.getCurrentWeight()));
+            repsTextView.setText(String.valueOf(exercise.getReps()));
+
+            Button bumpWeight = rootView.findViewById(R.id.bumpWeight);
+            bumpWeight.setOnClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                builder.setTitle("Bump weight");
+
+                NumberPicker numberPicker = new NumberPicker(getContext());
+                numberPicker.setValue(exercise.getCurrentWeight());
+
+                builder.setView(numberPicker);
+
+                final AlertDialog dialog = builder.create();
+                dialog.show();
+            });
+
             return rootView;
         }
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class ExercisePagerAdapter extends FragmentPagerAdapter {
+        private Workout workout;
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        public ExercisePagerAdapter(FragmentManager fm, Workout workout) {
             super(fm);
+            this.workout = workout;
         }
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            Exercise exercise = workout.getExercises().get(position);
+            return ExerciseFragment.newInstance(exercise);
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return workout.getExercises().size();
         }
     }
 }

@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         workoutJournal.addWorkout(newWorkout);
         Intent intent = new Intent(this, WorkoutActivity.class);
         intent.putExtra("WORKOUT", newWorkout);
-        // finish();
         startActivity(intent);
     }
 
@@ -64,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setItems(workoutJournal.getWorkoutNames(), (dialog, which) -> {
             Intent intent = new Intent(this, WorkoutActivity.class);
             intent.putExtra("WORKOUT", workoutJournal.getWorkouts().get(which));
-            // finish();
             startActivity(intent);
         });
 
@@ -73,7 +71,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void workoutMode(View view){
-        Intent intent = new Intent(this, WorkoutModeActivity.class);
-        startActivity(intent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Choose a workout");
+
+        builder.setItems(workoutJournal.getWorkoutNames(), (dialog, which) -> {
+            Intent intent = new Intent(this, WorkoutModeActivity.class);
+            intent.putExtra("WORKOUT", workoutJournal.getWorkouts().get(which));
+            startActivity(intent);
+        });
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
